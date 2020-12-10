@@ -1,0 +1,48 @@
+import { createStore, combineReducers, applyMiddleware } from 'redux' /// bringing necessary stuff from redux
+import thunk from 'redux-thunk' /// middleware
+import { composeWithDevTools } from 'redux-devtools-extension' /// to use redux devtools
+import { productListReducer, productDetailsReducer, productDeleteReducer, productCreateReducer, productUpdateReducer, } from './reducers/productReducers'
+import { cartReducer } from './reducers/cartReducers'
+import { userLoginReducer, userRegisterReducer, userListReducer, } from './reducers/userReducers'
+import { orderCreateReducer, orderDetailsReducer, } from './reducers/orderReducers'
+
+const reducer = combineReducers({
+    productList: productListReducer,
+    productDetails: productDetailsReducer,
+    productDelete: productDeleteReducer,
+    productCreate: productCreateReducer,
+    productUpdate: productUpdateReducer, 
+    cart: cartReducer,
+    userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
+    userList: userListReducer,
+    orderCreate: orderCreateReducer,
+    orderDetails: orderDetailsReducer,
+})
+
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : []
+
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null
+
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
+  : {}
+
+const initialState = {
+  cart: { cartItems: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage,},
+  userLogin: { userInfo: userInfoFromStorage },
+}
+
+const middleware = [thunk]
+
+const store = createStore(
+  reducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+)
+
+export default store
