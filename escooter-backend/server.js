@@ -17,28 +17,28 @@ app.use(express.json())
 
 
 
-app.get('/', (req, res) => {
-  res.send('API is running...')
-})
+// app.get('/', (req, res) => {
+//   res.send('API is running...')
+// })
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/orders', orderRoutes)
 
-// const __dirname = path.resolve()
+const __dirname = path.resolve()
 
-//if not in production * get any things that are not API routes
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, '../escooters-frontend/build')))
+// if not in production * get any things that are not API routes
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/escooter-frontend/build')))
 
-//   app.get('*', (req, res) =>
-//     res.sendFile(path.resolve(__dirname, 'escooters-frontend', 'build', 'index.html'))
-//   )
-// } else {
-//   app.get('/', (req, res) => {
-//     res.send('API is running....')
-//   })
-// }
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'escooter-frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
 
 app.use(notFound)
 app.use(errorHandler)

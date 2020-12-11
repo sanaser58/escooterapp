@@ -8,7 +8,7 @@ node_modules/
 /coverage
 
 # production
-/frontend/build
+escooter-frontend/build
 
 # misc
 .DS_Store
